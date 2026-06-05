@@ -34,7 +34,7 @@ namespace InsecureAPI.Controllers
         [HttpGet("redirect")]
         public IActionResult RedirectTo(string url)
         {
-            return Redirect(url);
+            return Redirect(url); 
         }
     }
 }
