@@ -22,5 +22,19 @@ namespace InsecureAPI.Controllers
 
             return result?.ToString() ?? "No results";
         }
+
+        [HttpGet("file")]
+        public string GetFile(string fileName)
+        {
+            var path = Path.Combine("C:\\temp", fileName);
+
+            return System.IO.File.ReadAllText(path);
+        }
+
+        [HttpGet("redirect")]
+        public IActionResult RedirectTo(string url)
+        {
+            return Redirect(url); 
+        }
     }
 }
