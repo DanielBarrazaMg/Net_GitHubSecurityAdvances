@@ -36,5 +36,13 @@ namespace InsecureAPI.Controllers
         {
             return Redirect(url); 
         }
+
+        [HttpGet("docto")]
+        public string GetDocto(string fileName)
+        {
+            var path = Path.Combine("C:\\temp", fileName);
+
+            return System.IO.File.ReadAllText(path);
+        }
     }
 }
