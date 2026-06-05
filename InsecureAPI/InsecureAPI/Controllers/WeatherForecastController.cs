@@ -12,9 +12,9 @@ namespace InsecureAPI.Controllers
         ];
 
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        public IEnumerable<WeatherForecast> Get(string name)
         {
-            var weatherList = GetWeather();
+            var weatherList = GetWeather(name);
 
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
@@ -25,9 +25,9 @@ namespace InsecureAPI.Controllers
             .ToArray();
         }
 
-        private static string GetWeather()
+        private static string GetWeather(string name)
         {
-            var sql = "SELECT * FROM WeatherForecasts";
+            var sql = $"SELECT * FROM WeatherForecasts WHERE Name = '{name}'";
             return sql;
         }
     }
