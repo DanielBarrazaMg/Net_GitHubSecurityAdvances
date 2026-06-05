@@ -1,0 +1,6 @@
+@InsecureAPI_HostAddress = http://localhost:5127
+
+GET {{InsecureAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
