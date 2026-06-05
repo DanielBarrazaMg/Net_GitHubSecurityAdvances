@@ -1,3 +1,4 @@
+using Microsoft.Data.SqlClient;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InsecureAPI.Controllers
@@ -6,29 +7,20 @@ namespace InsecureAPI.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries =
-        [
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        ];
-
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        public string Get(string name)
         {
-            var weatherList = GetWeather();
+            var connectionString = "Server=db;Database=Demo;User Id=admin;Password=admin;";
+            using var connection = new SqlConnection(connectionString);
 
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
-        }
+            var sql = $"SELECT * FROM WeatherForecasts WHERE Name = '{name}'";
+            using var command = new SqlCommand(sql, connection);
 
-        private static string GetWeather()
-        {
-            var sql = "SELECT * FROM WeatherForecasts";
-            return sql;
+            connection.Open();
+
+            var result = command.ExecuteScalar();
+
+            return result?.ToString() ?? "No results";
         }
     }
 }
